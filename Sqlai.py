@@ -1,11 +1,11 @@
 import requests
-import sys
-from flask import Flask, jsonify, request          # ▼ CHANGE 1 — added `request`
-from flask_cors import CORS                        # ▼ CHANGE 2 — new import (pip install flask-cors)
-import threading
+import os
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
-OLLAMA_URL = "http://localhost:11434"
-MODEL = "llama3.2:3b"
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+MODEL = "llama-3.1-8b-instant"
 
 TABLE_SCHEMA = {
     "Glucose": {
@@ -79,25 +79,28 @@ def build_system_prompt():
 
 history = []
 latest_sql = ""
-latest_results = None                              # ▼ CHANGE 3 — stores results from Java
+latest_results = None
 
 def chat(user_message):
     global latest_sql
     history.append({"role": "user", "content": user_message})
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
+    }
     payload = {
         "model": MODEL,
         "messages": [{"role": "system", "content": build_system_prompt()}, *history],
-        "stream": False,
-        "options": {"temperature": 0.1},
+        "temperature": 0.1,
     }
-    resp = requests.post(f"{OLLAMA_URL}/api/chat", json=payload, timeout=320)
-    reply = resp.json()["message"]["content"].strip()
+    resp = requests.post(GROQ_URL, json=payload, headers=headers, timeout=30)
+    reply = resp.json()["choices"][0]["message"]["content"].strip()
     history.append({"role": "assistant", "content": reply})
     latest_sql = reply
     return reply
 
 app = Flask(__name__)
-CORS(app)                                          # ▼ CHANGE 4 — allow React to call Flask
+CORS(app)
 
 @app.route("/get-query", methods=["GET"])
 def get_query():
@@ -106,7 +109,6 @@ def get_query():
     latest_sql = ""
     return jsonify({"sql": sql})
 
-# ▼ CHANGE 5 — receives message from React frontend, returns generated SQL
 @app.route("/send-message", methods=["POST"])
 def send_message():
     global latest_results
@@ -118,14 +120,12 @@ def send_message():
     sql = chat(user_message)
     return jsonify({"sql": sql})
 
-# ▼ CHANGE 6 — Java POSTs results here after executing
 @app.route("/post-results", methods=["POST"])
 def post_results():
     global latest_results
     latest_results = request.get_json()
     return jsonify({"status": "ok"})
 
-# ▼ CHANGE 7 — React polls this to get query results
 @app.route("/get-results", methods=["GET"])
 def get_results():
     global latest_results
@@ -133,31 +133,5 @@ def get_results():
     latest_results = None
     return jsonify(data if data else {"columns": [], "rows": [], "error": None})
 
-def main():
-    print("SQL Assistant (Ollama) — type /tables, /reset, or /exit\n")
-
-    try:
-        requests.get(f"{OLLAMA_URL}/api/tags", timeout=5)
-    except Exception:
-        print(f"Cannot connect to Ollama at {OLLAMA_URL}. Run: ollama serve")
-        sys.exit(1)
-
-    while True:
-        user_input = input("You > ").strip()
-        if not user_input:
-            continue
-        if user_input == "/exit":
-            break
-        elif user_input == "/reset":
-            history.clear()
-            print("History cleared.\n")
-        elif user_input == "/tables":
-            for t, info in TABLE_SCHEMA.items():
-                print(f"  {t}: {', '.join(info['cols'])}")
-            print()
-        else:
-            print("\n" + chat(user_input) + "\n")
-
 if __name__ == "__main__":
-    threading.Thread(target=lambda: app.run(port=5000), daemon=True).start()
-    main()
+    app.run(port=5000)

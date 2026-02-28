@@ -1,0 +1,12 @@
+medai_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+medai_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+medai_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+medai_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+medai_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+

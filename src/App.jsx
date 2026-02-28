@@ -8,7 +8,7 @@ const TABLES = [
   { name: "Medications", icon: "⬟", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(68,204,255,0.5)" },
 ];
 
-const FLASK_URL = "http://https://medsql.onrender.com/";
+const FLASK_URL = import.meta.env.VITE_API_URL || "https://medsql.onrender.com";
 
 export default function App() {
   const [dark, setDark] = useState(true);

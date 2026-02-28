@@ -7,7 +7,7 @@ import java.io.*;
 
 public class OracleExecutor {
 
-    static final String DB_URL = "jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))?TNS_ADMIN=C:/Users/Windows/Downloads/Wallet_MedAi_OracleServer";
+    static final String DB_URL = "jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-hyderabad-1.oraclecloud.com))(connect_data=(service_name=ga7d4718ca16afe_medai_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))?TNS_ADMIN=/app/wallet";
     static final String USER = "ADMIN";
     static final String PASS = "tomtomtomA123@";
     static final String PYTHON_API = "http://localhost:5000/get-query";
