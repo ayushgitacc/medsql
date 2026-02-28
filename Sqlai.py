@@ -133,34 +133,7 @@ def get_results():
     latest_results = None
     return jsonify(data if data else {"columns": [], "rows": [], "error": None})
 
-@app.route("/debug", methods=["GET"])
-def debug():
-    import os
-    wallet_path = "/app/wallet"
-    try:
-        files = os.listdir(wallet_path)
-    except Exception as e:
-        files = str(e)
-    
-    sqlnet_content = ""
-    try:
-        with open(f"{wallet_path}/sqlnet.ora", "r") as f:
-            sqlnet_content = f.read()
-    except Exception as e:
-        sqlnet_content = str(e)
-    
-    ojdbc_content = ""
-    try:
-        with open(f"{wallet_path}/ojdbc.properties", "r") as f:
-            ojdbc_content = f.read()
-    except Exception as e:
-        ojdbc_content = str(e)
-    
-    return jsonify({
-        "wallet_files": files,
-        "sqlnet_ora": sqlnet_content,
-        "ojdbc_properties": ojdbc_content
-    })
+
 
 if __name__ == "__main__":
     app.run(port=5000)
