@@ -14,9 +14,16 @@ public class OracleExecutor {
     static final String RESULTS_API = "http://localhost:5000/post-results";
 
     public static void main(String[] args) throws Exception {
-        System.setProperty("oracle.net.tns_admin", "/app/wallet");
-        System.setProperty("javax.net.ssl.trustStorePassword", "tomtomtomA123@");
-        System.setProperty("javax.net.ssl.keyStorePassword", "tomtomtomA123@");
+        String walletPath = "/app/wallet";
+
+        System.setProperty("oracle.net.tns_admin",                walletPath);
+        System.setProperty("javax.net.ssl.keyStore",              walletPath + "/ewallet.p12");
+        System.setProperty("javax.net.ssl.keyStoreType",          "PKCS12");
+        System.setProperty("javax.net.ssl.keyStorePassword",      "tomtomtomA123@");
+        System.setProperty("javax.net.ssl.trustStore",            walletPath + "/ewallet.p12");
+        System.setProperty("javax.net.ssl.trustStoreType",        "PKCS12");
+        System.setProperty("javax.net.ssl.trustStorePassword",    "tomtomtomA123@");
+
         Class.forName("oracle.jdbc.driver.OracleDriver");
         System.out.println("OracleExecutor running — polling for queries automatically...");
 
