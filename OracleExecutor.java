@@ -15,6 +15,8 @@ public class OracleExecutor {
 
     public static void main(String[] args) throws Exception {
         System.setProperty("oracle.net.tns_admin", "/app/wallet");
+        System.setProperty("javax.net.ssl.trustStorePassword", "tomtomtomA123@");
+        System.setProperty("javax.net.ssl.keyStorePassword", "tomtomtomA123@");
         Class.forName("oracle.jdbc.driver.OracleDriver");
         System.out.println("OracleExecutor running — polling for queries automatically...");
 
