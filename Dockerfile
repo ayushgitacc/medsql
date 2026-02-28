@@ -16,7 +16,7 @@ COPY . .
 RUN pip install flask flask-cors requests gunicorn
 
 # Build React frontend
-RUN npm install && npm run build
+RUN npm install && npx vite build
 
 # Compile Java
 RUN javac -cp ".:ojdbc11.jar" OracleExecutor.java
