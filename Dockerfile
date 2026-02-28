@@ -1,22 +1,19 @@
 FROM python:3.11-slim
 
-# Install Java and Node.js
+# Install Java only
 RUN apt-get update && \
-    apt-get install -y default-jdk curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
+    apt-get install -y default-jdk && \
     apt-get clean
 
 WORKDIR /app
 
-# Copy everything
-COPY . .
+# Copy only backend files
+COPY Sqlai.py .
+COPY OracleExecutor.java .
+COPY ojdbc11.jar .
 
 # Install Python deps
 RUN pip install flask flask-cors requests gunicorn
-
-# Build React frontend
-RUN npm install && npx vite build
 
 # Compile Java
 RUN javac -cp ".:ojdbc11.jar" OracleExecutor.java
