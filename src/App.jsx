@@ -127,7 +127,7 @@ export default function App() {
       </div>
 
       <div className="sidebar-scroll" style={{ flex: 1, overflowY: "auto", padding: "12px 10px", minHeight: 0 }}>
-        {TABLES.map((t, i) => (
+        {TABLES.map((t) => (
           <div key={t.name} className="table-card" onClick={() => setActiveTable(activeTable === t.name ? null : t.name)}
             style={{
               marginBottom: 8, borderRadius: 14, overflow: "hidden", cursor: "pointer",
@@ -177,19 +177,15 @@ export default function App() {
 
   return (
     <div style={{
-      height: "100dvh",
-      width: "100vw",
+      height: "100dvh", width: "100vw",
       fontFamily: "'Roboto', sans-serif",
       color: d ? "#e8f4ff" : "#0d1f3c",
-      display: "flex",
-      flexDirection: "column",
-      position: "relative",
-      overflow: "hidden",
+      display: "flex", flexDirection: "column",
+      position: "relative", overflow: "hidden",
       background: d ? "#020b18" : "#eef3fb",
     }}>
       <style>{CSS(d)}</style>
 
-      {/* Background layers */}
       <div className="bg-animate" />
       <div className="noise" />
       <div className="orb orb1" />
@@ -198,33 +194,25 @@ export default function App() {
       <div className="orb orb4" />
 
       {/* Mobile drawer overlay */}
-      <div
-        onClick={() => setDrawerOpen(false)}
-        style={{
-          position: "fixed", inset: 0, zIndex: 200,
-          background: "rgba(0,0,0,0.5)",
-          backdropFilter: "blur(4px)",
-          opacity: drawerOpen ? 1 : 0,
-          pointerEvents: drawerOpen ? "auto" : "none",
-          transition: "opacity 0.3s ease",
-        }}
-      />
+      <div onClick={() => setDrawerOpen(false)} style={{
+        position: "fixed", inset: 0, zIndex: 200,
+        background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)",
+        opacity: drawerOpen ? 1 : 0,
+        pointerEvents: drawerOpen ? "auto" : "none",
+        transition: "opacity 0.3s ease",
+      }} />
 
       {/* Mobile drawer */}
-      <aside
-        style={{
-          position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 201,
-          width: 288,
-          background: d ? "rgba(4,14,30,0.98)" : "rgba(238,243,251,0.98)",
-          backdropFilter: "blur(24px)",
-          borderRight: d ? "1px solid rgba(0,255,204,0.15)" : "2px solid rgba(15,25,50,0.18)",
-          display: "flex", flexDirection: "column",
-          transform: drawerOpen ? "translateX(0)" : "translateX(-100%)",
-          transition: "transform 0.35s cubic-bezier(0.34,1.2,0.64,1)",
-          boxShadow: drawerOpen ? (d ? "8px 0 60px rgba(0,255,204,0.12)" : "8px 0 40px rgba(15,25,50,0.18)") : "none",
-        }}
-        className="mobile-drawer"
-      >
+      <aside style={{
+        position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 201, width: 288,
+        background: d ? "rgba(4,14,30,0.98)" : "rgba(238,243,251,0.98)",
+        backdropFilter: "blur(24px)",
+        borderRight: d ? "1px solid rgba(0,255,204,0.15)" : "2px solid rgba(15,25,50,0.18)",
+        display: "flex", flexDirection: "column",
+        transform: drawerOpen ? "translateX(0)" : "translateX(-100%)",
+        transition: "transform 0.35s cubic-bezier(0.34,1.2,0.64,1)",
+        boxShadow: drawerOpen ? (d ? "8px 0 60px rgba(0,255,204,0.12)" : "8px 0 40px rgba(15,25,50,0.18)") : "none",
+      }} className="mobile-drawer">
         <SidebarContent onClose={() => setDrawerOpen(false)} />
       </aside>
 
@@ -234,34 +222,24 @@ export default function App() {
         background: d ? "rgba(2,11,24,0.75)" : "rgba(238,243,251,0.85)",
         backdropFilter: "blur(24px)",
         borderBottom: d ? "1px solid rgba(0,255,204,0.1)" : "2px solid rgba(15,25,50,0.14)",
-        padding: "0 20px",
-        height: 58,
+        padding: "0 20px", height: 58,
         display: "flex", alignItems: "center", justifyContent: "space-between",
         flexShrink: 0,
         boxShadow: d ? "none" : "0 2px 16px rgba(15,25,50,0.08)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          {/* Mobile schema trigger */}
-          <button
-            className="schema-trigger"
-            onClick={() => setDrawerOpen(true)}
-            title="View Database Schema"
+          <button className="schema-trigger" onClick={() => setDrawerOpen(true)} title="View Database Schema"
             style={{
-              display: "none",
-              alignItems: "center", justifyContent: "center",
+              display: "none", alignItems: "center", justifyContent: "center",
               width: 36, height: 36, borderRadius: 10,
               border: d ? "1px solid rgba(0,255,204,0.25)" : "1.5px solid rgba(15,25,50,0.2)",
               cursor: "pointer",
               background: d ? "rgba(0,255,204,0.08)" : "rgba(15,25,50,0.06)",
               color: d ? "#00ffcc" : "#0d1f3c",
-              fontSize: 16, flexShrink: 0,
-              transition: "all 0.2s",
-              marginRight: 2,
-            }}
-          >
+              fontSize: 16, flexShrink: 0, transition: "all 0.2s", marginRight: 2,
+            }}>
             <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><rect x="1" y="2" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="1.5"/><rect x="1" y="7" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="1.5"/><rect x="1" y="12" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="1.5"/></svg>
           </button>
-
           <span style={{ fontSize: 30, lineHeight: 1, background: "linear-gradient(135deg, #00ffcc, #44ccff, #aa88ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>⬡</span>
           <div>
             <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1, fontFamily: "'Roboto', sans-serif", color: d ? "#e8f4ff" : "#0d1f3c" }}>
@@ -272,7 +250,6 @@ export default function App() {
             </div>
           </div>
         </div>
-
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontSize: 10, color: d ? "rgba(255,255,255,0.35)" : "rgba(15,25,50,0.45)", fontFamily: "'Roboto Mono', monospace", letterSpacing: "0.1em" }} className="theme-label">
             {d ? "DARK" : "LIGHT"}
@@ -289,51 +266,36 @@ export default function App() {
               background: d ? "linear-gradient(135deg, #00ffcc, #44ccff)" : "linear-gradient(135deg, #ffaa00, #ff6644)",
               boxShadow: d ? "0 0 12px rgba(0,255,204,0.8)" : "0 0 12px rgba(255,170,0,0.8)",
               transition: "all 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 10,
+              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10,
             }}>{d ? "🌙" : "☀️"}</div>
           </div>
         </div>
       </header>
 
-      {/* ── MAIN (fills remaining height) ── */}
-      <main style={{
-        display: "flex",
-        flex: 1,
-        minHeight: 0,
-        overflow: "hidden",
-        position: "relative",
-        zIndex: 1,
-      }}>
+      {/* ── MAIN ── */}
+      <main style={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden", position: "relative", zIndex: 1 }}>
+
         {/* Desktop Sidebar */}
-        <aside
-          className="desktop-sidebar"
-          style={{
-            width: 268, minWidth: 240,
-            background: d ? "rgba(4,14,30,0.75)" : "rgba(238,243,251,0.82)",
-            backdropFilter: "blur(20px)",
-            borderRight: d ? "1px solid rgba(255,255,255,0.07)" : "2px solid rgba(15,25,50,0.13)",
-            display: "flex", flexDirection: "column",
-            overflow: "hidden",
-          }}>
+        <aside className="desktop-sidebar" style={{
+          width: 268, minWidth: 240,
+          background: d ? "rgba(4,14,30,0.75)" : "rgba(238,243,251,0.82)",
+          backdropFilter: "blur(20px)",
+          borderRight: d ? "1px solid rgba(255,255,255,0.07)" : "2px solid rgba(15,25,50,0.13)",
+          display: "flex", flexDirection: "column", overflow: "hidden",
+        }}>
           <SidebarContent onClose={null} />
         </aside>
 
-        {/* ── CHAT SECTION ── */}
+        {/* ── CHAT ── */}
         <section style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          padding: "14px 20px 14px",
-          overflow: "hidden",
-          minWidth: 0,
+          flex: 1, display: "flex", flexDirection: "column",
+          padding: "14px 20px 14px", overflow: "hidden", minWidth: 0,
         }} className="chat-section">
 
           {/* Email row */}
           <div style={{
-            display: "flex", alignItems: "center", gap: 12,
-            marginBottom: 12, padding: "9px 14px",
-            borderRadius: 12,
+            display: "flex", alignItems: "center", gap: 12, marginBottom: 12,
+            padding: "9px 14px", borderRadius: 12,
             background: d ? "rgba(4,14,30,0.65)" : "rgba(255,255,255,0.8)",
             backdropFilter: "blur(12px)",
             border: d ? "1px solid rgba(255,255,255,0.08)" : "1.5px solid rgba(15,25,50,0.15)",
@@ -346,16 +308,10 @@ export default function App() {
             {email && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#00ffcc", boxShadow: "0 0 10px rgba(0,255,204,0.8)", flexShrink: 0 }} />}
           </div>
 
-          {/* Messages — flex-grow, scrollable */}
+          {/* Messages */}
           <div className="chat-scroll" style={{
-            flex: 1,
-            overflowY: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            marginBottom: 12,
-            paddingRight: 2,
-            minHeight: 0,
+            flex: 1, overflowY: "auto", display: "flex", flexDirection: "column",
+            gap: 12, marginBottom: 12, paddingRight: 2, minHeight: 0,
           }}>
             {messages.length === 0 && !resultData && (
               <div style={{ margin: "auto", textAlign: "center", padding: 24 }}>
@@ -372,27 +328,25 @@ export default function App() {
                 <div style={{ fontSize: 9, color: d ? "rgba(255,255,255,0.25)" : "rgba(15,25,50,0.4)", marginBottom: 4, textAlign: m.role === "user" ? "right" : "left", fontFamily: "'Roboto Mono', monospace", letterSpacing: "0.08em" }}>
                   {m.role === "user" ? (email || "YOU") : m.role === "error" ? "⚠ ERROR" : "◈ SQL"} · {m.time}
                 </div>
-                <div style={{
-                  borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                  padding: "11px 15px",
-                  backdropFilter: "blur(16px)",
-                  background: m.role === "user"
-                    ? d ? "linear-gradient(135deg, rgba(68,204,255,0.2), rgba(170,136,255,0.15))"
-                        : "linear-gradient(135deg, rgba(0,80,200,0.1), rgba(100,60,200,0.08))"
-                    : m.role === "error"
-                    ? d ? "rgba(255,40,80,0.12)" : "rgba(200,0,50,0.07)"
-                    : d ? "rgba(0,255,204,0.07)" : "rgba(255,255,255,0.88)",
-                  border: m.role === "user"
-                    ? d ? "1px solid rgba(68,204,255,0.25)" : "1.5px solid rgba(0,80,200,0.2)"
-                    : m.role === "error"
-                    ? "1.5px solid rgba(255,40,80,0.28)"
-                    : d ? "1px solid rgba(0,255,204,0.15)" : "1.5px solid rgba(15,25,50,0.14)",
-                  boxShadow: m.role !== "user"
-                    ? d ? "0 4px 20px rgba(0,255,204,0.07)" : "0 4px 18px rgba(15,25,50,0.09)"
-                    : "none",
-                }}>
-                  <pre style={{ margin: 0, fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", wordBreak: "break-word", fontFamily: m.role === "assistant" ? "'Roboto Mono', monospace" : "'Roboto', sans-serif", fontWeight: m.role === "user" ? 500 : 400, color: m.role === "user" ? (d ? "#c8e8ff" : "#0d1f3c") : m.role === "error" ? "#ff4488" : (d ? "#00ffcc" : "#074fa3") }}>{m.text}</pre>
-                </div>
+
+                {/* SQL assistant messages → syntax-highlighted bubble */}
+                {m.role === "assistant" ? (
+                  <SqlBubble sql={m.text} d={d} />
+                ) : (
+                  <div style={{
+                    borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+                    padding: "11px 15px", backdropFilter: "blur(16px)",
+                    background: m.role === "user"
+                      ? d ? "linear-gradient(135deg, rgba(68,204,255,0.2), rgba(170,136,255,0.15))"
+                          : "linear-gradient(135deg, rgba(0,80,200,0.1), rgba(100,60,200,0.08))"
+                      : d ? "rgba(255,40,80,0.12)" : "rgba(200,0,50,0.07)",
+                    border: m.role === "user"
+                      ? d ? "1px solid rgba(68,204,255,0.25)" : "1.5px solid rgba(0,80,200,0.2)"
+                      : "1.5px solid rgba(255,40,80,0.28)",
+                  }}>
+                    <pre style={{ margin: 0, fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", wordBreak: "break-word", fontFamily: "'Roboto', sans-serif", fontWeight: m.role === "user" ? 500 : 400, color: m.role === "user" ? (d ? "#c8e8ff" : "#0d1f3c") : "#ff4488" }}>{m.text}</pre>
+                  </div>
+                )}
               </div>
             ))}
 
@@ -467,7 +421,7 @@ export default function App() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* ── INPUT BAR (fixed at bottom) ── */}
+          {/* ── INPUT BAR ── */}
           <div style={{
             borderRadius: 18,
             background: d ? "rgba(4,14,30,0.8)" : "rgba(255,255,255,0.9)",
@@ -491,8 +445,7 @@ export default function App() {
                   fontFamily: "'Roboto', sans-serif", fontWeight: 700, fontSize: 13,
                   transition: "all 0.25s ease",
                   boxShadow: loading || waitingForResults ? "none" : "0 4px 20px rgba(0,255,204,0.4)",
-                  display: "flex", alignItems: "center", gap: 7,
-                  flexShrink: 0,
+                  display: "flex", alignItems: "center", gap: 7, flexShrink: 0,
                 }}>
                 {loading || waitingForResults
                   ? <><div className="spin-ring" /><span>Processing</span></>
@@ -507,15 +460,111 @@ export default function App() {
   );
 }
 
+// ── SQL Tokenizer ─────────────────────────────────────────────────────────────
+function tokenizeSQL(sql) {
+  const tokens = [];
+  let remaining = sql;
+  const patterns = [
+    { type: "comment",   re: /^(--[^\n]*)/ },
+    { type: "string",    re: /^('(?:[^']|'')*')/ },
+    { type: "qualified", re: /^([a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*)/ },
+    { type: "keyword",   re: /^(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|FULL|ON|AND|OR|NOT|IN|AS|ORDER|BY|GROUP|HAVING|LIMIT|OFFSET|INSERT|INTO|VALUES|UPDATE|SET|DELETE|DISTINCT|UNION|ALL|CREATE|TABLE|DROP|ALTER|ASC|DESC|IS|NULL|LIKE|BETWEEN|EXISTS|CASE|WHEN|THEN|ELSE|END|PRIMARY|KEY|FOREIGN|REFERENCES)\b/i },
+    { type: "function",  re: /^(COUNT|SUM|AVG|MAX|MIN|COALESCE|NULLIF|CAST|CONVERT|ROUND|FLOOR|CEIL|NOW|DATE|TO_DATE|SUBSTR|LENGTH|TRIM|UPPER|LOWER|NVL|DECODE|ROWNUM|SYSDATE)(?=\s*\()/i },
+    { type: "number",    re: /^(\d+(\.\d+)?)/ },
+    { type: "operator",  re: /^([=<>!]+|[+\-*\/])/ },
+    { type: "punct",     re: /^([(),;])/ },
+    { type: "ident",     re: /^([a-zA-Z_][a-zA-Z0-9_]*)/ },
+    { type: "space",     re: /^(\s+)/ },
+    { type: "other",     re: /^(.)/ },
+  ];
+  while (remaining.length > 0) {
+    let matched = false;
+    for (const { type, re } of patterns) {
+      const m = remaining.match(re);
+      if (m) { tokens.push({ type, value: m[1] }); remaining = remaining.slice(m[0].length); matched = true; break; }
+    }
+    if (!matched) { tokens.push({ type: "other", value: remaining[0] }); remaining = remaining.slice(1); }
+  }
+  return tokens;
+}
+
+// ── SQL Syntax-Highlighted Chat Bubble ───────────────────────────────────────
+function SqlBubble({ sql, d }) {
+  const tokens = tokenizeSQL(sql);
+
+  const COLOR = d ? {
+    keyword:   "#ff88cc",   // pink  — SELECT, FROM, WHERE …
+    function:  "#ffaa00",   // amber — COUNT(), AVG() …
+    string:    "#66ffaa",   // green — 'Metformin'
+    number:    "#44ccff",   // cyan  — 60, 300 …
+    comment:   "rgba(255,255,255,0.3)",
+    operator:  "#aa88ff",   // purple — = > < …
+    qualified: "#00ffcc",   // teal  — p.gender, a.patient_id
+    ident:     "rgba(220,240,255,0.75)",
+    punct:     "rgba(255,255,255,0.35)",
+    space:     "transparent",
+    other:     "rgba(255,255,255,0.5)",
+  } : {
+    keyword:   "#aa0066",
+    function:  "#885500",
+    string:    "#006633",
+    number:    "#0055aa",
+    comment:   "rgba(15,25,50,0.4)",
+    operator:  "#5533aa",
+    qualified: "#006644",
+    ident:     "#1a2a4a",
+    punct:     "rgba(15,25,50,0.4)",
+    space:     "transparent",
+    other:     "rgba(15,25,50,0.5)",
+  };
+
+  return (
+    <div style={{
+      borderRadius: "16px 16px 16px 4px",
+      overflow: "hidden",
+      backdropFilter: "blur(20px)",
+      border: d ? "1px solid rgba(255,136,204,0.2)" : "1.5px solid rgba(100,0,80,0.15)",
+      boxShadow: d
+        ? "0 4px 28px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)"
+        : "0 4px 20px rgba(15,25,50,0.1), inset 0 1px 0 rgba(255,255,255,0.9)",
+      background: d
+        ? "linear-gradient(160deg, rgba(6,14,30,0.97) 0%, rgba(2,8,20,0.99) 100%)"
+        : "linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(245,248,255,0.99) 100%)",
+    }}>
+      {/* Title bar with macOS traffic-light dots */}
+      <div style={{
+        padding: "7px 14px", display: "flex", alignItems: "center", gap: 8,
+        background: d
+          ? "linear-gradient(90deg, rgba(255,136,204,0.07), rgba(170,136,255,0.06))"
+          : "linear-gradient(90deg, rgba(150,0,100,0.04), rgba(80,40,180,0.04))",
+        borderBottom: d ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(15,25,50,0.08)",
+      }}>
+        {["#ff5f57", "#febc2e", "#28c840"].map((c, i) => (
+          <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c, opacity: 0.85, display: "inline-block" }} />
+        ))}
+        <span style={{ flex: 1 }} />
+        <span style={{ fontSize: 9, fontFamily: "'Roboto Mono', monospace", letterSpacing: "0.18em", color: d ? "rgba(255,136,204,0.5)" : "rgba(100,0,80,0.45)", fontWeight: 600 }}>SQL · ORACLE</span>
+      </div>
+
+      {/* Highlighted code body */}
+      <div style={{ padding: "14px 16px", overflowX: "auto" }}>
+        <pre style={{ margin: 0, fontSize: 13, lineHeight: 1.85, whiteSpace: "pre-wrap", wordBreak: "break-word", fontFamily: "'Roboto Mono', monospace" }}>
+          {tokens.map((tok, i) => (
+            <span key={i} style={{ color: COLOR[tok.type] ?? COLOR.other }}>{tok.value}</span>
+          ))}
+        </pre>
+      </div>
+    </div>
+  );
+}
+
+// ── Global Styles ─────────────────────────────────────────────────────────────
 function CSS(d) {
   return `
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;500;600&display=swap');
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html, body { height: 100%; overflow: hidden; }
 
-    /* ── Animated gradient background ── */
     .bg-animate {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background: ${d
@@ -535,15 +584,11 @@ function CSS(d) {
       50%  { opacity: 0.88; transform: scale(1.05) rotate(0.8deg); }
       100% { opacity: 1; transform: scale(1.02) rotate(-0.4deg); }
     }
-
-    /* ── Noise texture ── */
     .noise {
       position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: ${d ? 0.022 : 0.018};
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 180px;
     }
-
-    /* ── Floating orbs ── */
     .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(70px); }
     .orb1 { width: 480px; height: 480px; top: -15%; left: -10%; background: ${d ? "rgba(0,255,200,0.08)" : "rgba(150,200,255,0.45)"}; animation: orbDrift 18s ease-in-out infinite; }
     .orb2 { width: 400px; height: 400px; top: 10%; right: -8%; background: ${d ? "rgba(80,100,255,0.1)" : "rgba(180,200,255,0.38)"}; animation: orbDrift 22s ease-in-out infinite reverse; }
@@ -555,70 +600,37 @@ function CSS(d) {
       50%  { transform: translate(-20px,50px) scale(0.94); }
       75%  { transform: translate(30px,20px) scale(1.04); }
     }
-
-    /* ── Accent text ── */
     .accent-text { background: linear-gradient(90deg, #00ffcc, #44ccff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-    /* ── Scrollbars ── */
     .sidebar-scroll::-webkit-scrollbar, .chat-scroll::-webkit-scrollbar { width: 3px; }
     .sidebar-scroll::-webkit-scrollbar-track, .chat-scroll::-webkit-scrollbar-track { background: transparent; }
-    .sidebar-scroll::-webkit-scrollbar-thumb, .chat-scroll::-webkit-scrollbar-thumb {
-      background: ${d ? "rgba(0,255,204,0.22)" : "rgba(15,25,50,0.2)"};
-      border-radius: 3px;
-    }
-
-    /* ── Table card hover ── */
+    .sidebar-scroll::-webkit-scrollbar-thumb, .chat-scroll::-webkit-scrollbar-thumb { background: ${d ? "rgba(0,255,204,0.22)" : "rgba(15,25,50,0.2)"}; border-radius: 3px; }
     .table-card:hover { border-color: ${d ? "rgba(255,255,255,0.16)" : "rgba(15,25,50,0.24)"} !important; transform: translateX(3px); }
-
-    /* ── Textarea placeholder ── */
     .chat-textarea::placeholder { color: ${d ? "rgba(255,255,255,0.2)" : "rgba(15,25,50,0.28)"}; }
-
-    /* ── Email input placeholder ── */
     .glass-input::placeholder { color: ${d ? "rgba(255,255,255,0.2)" : "rgba(15,25,50,0.3)"}; }
-
-    /* ── Empty icon pulse ── */
     .empty-icon { animation: emptyPulse 3s ease-in-out infinite; }
     @keyframes emptyPulse {
       0%,100% { box-shadow: 0 0 20px ${d ? "rgba(0,255,204,0.15)" : "rgba(0,100,200,0.12)"}; }
       50%      { box-shadow: 0 0 40px ${d ? "rgba(0,255,204,0.35)" : "rgba(0,100,200,0.28)"}; }
     }
-
-    /* ── Wave dots ── */
     .wave-dots { display: flex; align-items: center; gap: 5px; }
     .wave-dot { width: 7px; height: 7px; border-radius: 50%; animation: waveDot 1s ease-in-out infinite; }
     @keyframes waveDot {
       0%,100% { transform: translateY(0); opacity: 0.4; }
       50%      { transform: translateY(-7px); opacity: 1; }
     }
-
-    /* ── Send button ── */
     .send-btn:hover:not(:disabled) { transform: translateY(-1px) scale(1.03); box-shadow: 0 8px 28px rgba(0,255,204,0.5) !important; }
     .send-btn:disabled { cursor: not-allowed; }
-
-    /* ── Spin ring ── */
     .spin-ring { width: 13px; height: 13px; border-radius: 50%; border: 2px solid ${d ? "rgba(255,255,255,0.15)" : "rgba(15,25,50,0.15)"}; border-top-color: ${d ? "rgba(255,255,255,0.5)" : "rgba(15,25,50,0.5)"}; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Results ── */
     .dl-btn:hover { background: ${d ? "rgba(0,255,204,0.14)" : "rgba(15,25,50,0.07)"} !important; transform: translateY(-1px); }
     .result-row:hover td { background: ${d ? "rgba(255,170,0,0.05)" : "rgba(15,25,50,0.04)"} !important; }
     .result-row:last-child td { border-bottom: none; }
-
-    /* ── Drawer close btn ── */
     .drawer-close-btn:hover { background: ${d ? "rgba(255,255,255,0.08)" : "rgba(15,25,50,0.06)"} !important; color: ${d ? "#fff" : "#0d1f3c"} !important; }
-
-    /* ── Schema trigger hover ── */
     .schema-trigger:hover { background: ${d ? "rgba(0,255,204,0.15)" : "rgba(15,25,50,0.1)"} !important; }
-
-    /* ── Slide-up animation ── */
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(12px) scale(0.98); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
-
-    /* ════════════════════════════════
-       RESPONSIVE — mobile
-    ════════════════════════════════ */
     @media (max-width: 767px) {
       .desktop-sidebar { display: none !important; }
       .schema-trigger  { display: flex !important; }
@@ -627,7 +639,6 @@ function CSS(d) {
       .chat-section    { padding: 10px 10px 10px !important; }
       .enter-hint      { display: none; }
     }
-
     @media (max-width: 400px) {
       .chat-section { padding: 6px 6px 6px !important; }
     }
