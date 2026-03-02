@@ -394,8 +394,7 @@ export default function App() {
                   {m.role === "user" ? (email || "YOU") : m.role === "error" ? "⚠ ERROR" : "◈ SQL"} · {m.time}
                 </div>
                 <div style={{
-                  position: "relative", // new add
-                  overflow: "hidden",   // new add
+                  
                   borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
                   padding: "11px 15px",
                   backdropFilter: "blur(16px)",
@@ -414,9 +413,7 @@ export default function App() {
                     ? d ? "0 4px 20px rgba(0,255,204,0.07)" : "0 4px 18px rgba(15,25,50,0.09)"
                     : "none",
                 }}>
-                    {m.role === "user" && (
-  <div style={{position:"absolute",top:0,left:0,right:0,height:4,background:"linear-gradient(90deg,#00ffcc,#44ccff)",boxShadow:"0 0 12px rgba(0,255,204,.7)",pointerEvents:"none"}}/>
-)}
+
                   <pre style={{ margin: 0, fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-wrap", wordBreak: "break-word", fontFamily: m.role === "assistant" ? "'Roboto Mono', monospace" : "'Roboto', sans-serif", fontWeight: m.role === "user" ? 500 : 400, color: m.role === "user" ? (d ? "#c8e8ff" : "#0d1f3c") : m.role === "error" ? "#ff4488" : (d ? "#00ffcc" : "#074fa3") }}>{m.text}</pre>
                 </div>
               </div>
@@ -495,6 +492,9 @@ export default function App() {
 
           {/* ── INPUT BAR (fixed at bottom) ── */}
           <div style={{
+            position: "relative",  // new add
+            overflow: "hidden",    // new add
+            
             borderRadius: 18,
             background: d ? "rgba(4,14,30,0.8)" : "rgba(255,255,255,0.9)",
             backdropFilter: "blur(20px)",
@@ -503,6 +503,18 @@ export default function App() {
             boxShadow: d ? "0 -4px 40px rgba(0,0,0,0.3)" : "0 -2px 24px rgba(15,25,50,0.1), 0 0 0 1px rgba(255,255,255,0.6) inset",
             flexShrink: 0,
           }}>
+            <div
+  style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 3,
+    background: "linear-gradient(90deg, #00ffcc, #44ccff)",
+    boxShadow: "0 0 14px rgba(0,255,204,0.8)",
+    pointerEvents: "none",
+  }}
+/>
             <textarea className="chat-textarea" rows={2} placeholder="Ask about your patient data... e.g. Show top 10 patients with high cholesterol" value={message} onChange={e => setMessage(e.target.value)} onKeyDown={handleKey}
               style={{ width: "100%", background: "transparent", border: "none", outline: "none", resize: "none", color: d ? "#e8f4ff" : "#0d1f3c", fontSize: 14, fontFamily: "'Roboto', sans-serif", lineHeight: 1.6, marginBottom: 8 }} />
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
