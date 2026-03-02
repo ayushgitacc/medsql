@@ -131,7 +131,7 @@ export default function App() {
           <div key={t.name} className="table-card" onClick={() => setActiveTable(activeTable === t.name ? null : t.name)}
             style={{
               marginBottom: 8, borderRadius: 14, overflow: "hidden", cursor: "pointer",
-              border: activeTable === t.name ? `1.5px solid ${t.color}66` : d ? "1px solid rgba(255, 255, 255, 0.86)" : "1.5px solid rgba(0, 0, 0, 0.92)",
+              border: activeTable === t.name ? `1.5px solid ${t.color}66` : d ? "1px solid rgba(255, 255, 255, 0.23)" : "1.5px solid rgba(14, 11, 44, 0.25)",
               background: activeTable === t.name
                 ? (d ? `rgba(4,20,36,0.95)` : "rgba(255,255,255,0.97)")
                 : (d ? "rgba(6,18,34,0.6)" : "rgba(255,255,255,0.72)"),
