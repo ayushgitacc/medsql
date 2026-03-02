@@ -5,7 +5,7 @@ const TABLES = [
   { name: "Heart", icon: "🫀", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff007b", glow: "rgba(255, 0, 174, 0.62)" },
   { name: "Activity", icon: "🏃", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255, 170, 0, 0.76)" },
   { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#b7ff00", glow: "rgba(174, 255, 0, 0.74)" },
-  { name: "Medications", icon: "💊", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(0, 255, 247, 0.78)" },
+  { name: "Medications", icon: "💊", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#00ffcc", glow: "rgba(0, 255, 247, 0.78)" },
 ];
 
 const FLASK_URL = import.meta.env.VITE_API_URL || "https://medsql.onrender.com";
@@ -152,9 +152,9 @@ export default function App() {
               }}>{t.icon}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: 700, fontSize: 13, color: activeTable === t.name ? t.color : d ? "#e8f4ff" : "#0d1f3c", letterSpacing: "0.01em", fontFamily: "'Roboto', sans-serif" }}>{t.name}</div>
-                <div style={{ fontSize: 10, color: d ? "rgba(255,255,255,0.35)" : "rgba(15,25,50,0.45)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "'Roboto', sans-serif" }}>{t.desc}</div>
+                <div style={{ fontSize: 10, color: d ? "rgba(255,255,255,0.35)" : "rgba(7, 11, 23, 0.91)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "'Roboto', sans-serif" }}>{t.desc}</div>
               </div>
-              <div style={{ color: d ? "rgba(255,255,255,0.25)" : "rgba(15,25,50,0.35)", fontSize: 11, transform: activeTable === t.name ? "rotate(180deg)" : "none", transition: "transform 0.25s ease" }}>▾</div>
+              <div style={{ color: d ? "rgba(255,255,255,0.25)" : "rgba(7, 11, 23, 0.85)", fontSize: 11, transform: activeTable === t.name ? "rotate(180deg)" : "none", transition: "transform 0.25s ease" }}>▾</div>
             </div>
             {activeTable === t.name && (
               <div style={{ padding: "0 13px 13px", borderTop: `1px solid ${t.color}18` }}>
