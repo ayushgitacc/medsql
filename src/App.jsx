@@ -142,14 +142,35 @@ export default function App() {
             }}>
             <div style={{ padding: "11px 13px", display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{
-                width: 32, height: 32, borderRadius: 10, flexShrink: 0,
-                background: `linear-gradient(135deg, ${t.color}22, ${t.color}08)`,
-                border: `1.5px solid ${t.color}44`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 14, color: t.color,
-                boxShadow: activeTable === t.name ? `0 0 16px ${t.glow}` : "none",
-                transition: "box-shadow 0.3s",
-              }}>{t.icon}</div>
+                    width: activeTable === t.name ? 44 : 36,
+                    height: activeTable === t.name ? 44 : 36,
+                    borderRadius: 12,
+                    flexShrink: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+
+                    /* box invisible by default */
+                    background: activeTable === t.name
+                    ? `linear-gradient(135deg, ${t.color}22, ${t.color}08)`
+                    : "transparent",
+
+                    border: activeTable === t.name
+                    ? `1.5px solid ${t.color}55`
+                    : "none",
+
+                    /* glow only when active */
+                    boxShadow: activeTable === t.name
+                    ? `0 0 22px ${t.glow}`
+                    : "none",
+
+                    fontSize: activeTable === t.name ? 22 : 18,
+                    color: t.color,
+                    transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+                }}
+                >
+                {t.icon}
+                </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: 700, fontSize: 13, color: activeTable === t.name ? t.color : d ? "#e8f4ff" : "#0d1f3c", letterSpacing: "0.01em", fontFamily: "'Roboto', sans-serif" }}>{t.name}</div>
                 <div style={{ fontSize: 10, color: d ? "rgba(255,255,255,0.35)" : "rgba(7, 11, 23, 0.91)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "'Roboto', sans-serif" }}>{t.desc}</div>
