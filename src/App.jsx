@@ -4,7 +4,7 @@ const TABLES = [
   { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#ffcc00", glow: "rgba(255, 162, 0, 0.73)" },
   { name: "Heart", icon: "🫀", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff007b", glow: "rgba(255, 0, 174, 0.62)" },
   { name: "Activity", icon: "🏃", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255, 170, 0, 0.76)" },
-  { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#2bff00", glow: "rgba(152, 255, 136, 0.63)" },
+  { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#b7ff00", glow: "rgba(174, 255, 0, 0.74)" },
   { name: "Medications", icon: "💊", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(0, 255, 247, 0.78)" },
 ];
 
@@ -131,7 +131,7 @@ export default function App() {
           <div key={t.name} className="table-card" onClick={() => setActiveTable(activeTable === t.name ? null : t.name)}
             style={{
               marginBottom: 8, borderRadius: 14, overflow: "hidden", cursor: "pointer",
-              border: activeTable === t.name ? `1.5px solid ${t.color}66` : d ? "1px solid rgba(255, 255, 255, 0.23)" : "1.5px solid rgba(14, 11, 44, 0.25)",
+              border: activeTable === t.name ? `1.5px solid ${t.color}66` : d ? "1px solid rgba(255, 255, 255, 0.09)" : "1.5px solid rgba(0, 0, 0, 0.14)",
               background: activeTable === t.name
                 ? (d ? `rgba(4,20,36,0.95)` : "rgba(255,255,255,0.97)")
                 : (d ? "rgba(6,18,34,0.6)" : "rgba(255,255,255,0.72)"),
