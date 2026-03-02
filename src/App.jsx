@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import * as XLSX from "xlsx";
 
 const TABLES = [
   { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#ffcc00", glow: "rgba(255, 162, 0, 0.73)" },
@@ -95,16 +96,16 @@ export default function App() {
 
   const downloadExcel = () => {
     if (!resultData || !resultData.rows?.length) return;
-    const headers = resultData.columns.join("\t");
-    const rows = resultData.rows.map(r => r.map(c => c || "").join("\t")).join("\n");
-    const tsv = headers + "\n" + rows;
-    const blob = new Blob([tsv], { type: "application/vnd.ms-excel;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `medsql_report_${new Date().toISOString().slice(0,10)}.xls`;
-    a.click();
-    URL.revokeObjectURL(url);
+
+    const worksheetData = resultData.rows.map(row =>
+    Object.fromEntries(resultData.columns.map((col, i) => [col, row[i] ?? ""]))
+    );
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData, { header: resultData.columns });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Results");
+
+    XLSX.writeFile(workbook, `medsql_report_${new Date().toISOString().slice(0, 10)}.xlsx`);
   };
 
   const d = dark;
@@ -492,8 +493,8 @@ export default function App() {
 
           {/* ── INPUT BAR (fixed at bottom) ── */}
           <div style={{
-            position: "relative",  // new add
-            overflow: "hidden",    // new add
+            position: "relative",  
+            overflow: "hidden",    
             
             borderRadius: 18,
             background: d ? "rgba(4,14,30,0.8)" : "rgba(255,255,255,0.9)",
