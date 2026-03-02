@@ -119,7 +119,7 @@ export default function App() {
       }}>
         <div>
           <div style={{ fontSize: 10, letterSpacing: "0.28em", color: d ? "rgba(0,255,204,0.6)" : "rgba(0,80,160,0.7)", fontFamily: "'Roboto Mono', monospace", marginBottom: 4, fontWeight: 900 }}>DATABASE SCHEMA</div>
-          <div style={{ fontSize: 11, color: d ? "rgba(46, 42, 42, 0.27)" : "rgba(15,25,50,0.45)", fontFamily: "'Roboto Mono', monospace" }}>{TABLES.length} tables · {TABLES.reduce((a,t)=>a+t.cols.length,0)} columns</div>
+          <div style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.3)" : "rgba(15,25,50,0.45)", fontFamily: "'Roboto Mono', monospace" }}>{TABLES.length} tables · {TABLES.reduce((a,t)=>a+t.cols.length,0)} columns</div>
         </div>
         {onClose && (
           <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: d ? "rgba(255,255,255,0.5)" : "rgba(15,25,50,0.5)", fontSize: 22, lineHeight: 1, padding: "4px 8px", borderRadius: 8, transition: "all 0.2s" }} className="drawer-close-btn">✕</button>
