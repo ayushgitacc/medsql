@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 
 const TABLES = [
-  { name: "Glucose", icon: "◎", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#00ffcc", glow: "rgba(0,255,204,0.5)" },
-  { name: "Heart", icon: "◈", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff4488", glow: "rgba(255,68,136,0.5)" },
-  { name: "Activity", icon: "◉", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255,170,0,0.5)" },
-  { name: "Patients", icon: "⬡", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#aa88ff", glow: "rgba(170,136,255,0.5)" },
-  { name: "Medications", icon: "⬟", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(68,204,255,0.5)" },
+  { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#00ffcc", glow: "rgba(0,255,204,0.5)" },
+  { name: "Heart", icon: "🫀", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff4488", glow: "rgba(255,68,136,0.5)" },
+  { name: "Activity", icon: "🏃", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255,170,0,0.5)" },
+  { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#aa88ff", glow: "rgba(170,136,255,0.5)" },
+  { name: "Medications", icon: "💊", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(68,204,255,0.5)" },
 ];
 
 const FLASK_URL = import.meta.env.VITE_API_URL || "https://medsql.onrender.com";
@@ -359,7 +359,7 @@ export default function App() {
           }}>
             {messages.length === 0 && !resultData && (
               <div style={{ margin: "auto", textAlign: "center", padding: 24 }}>
-                <div className="empty-icon" style={{ width: 64, height: 64, borderRadius: "50%", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, background: d ? "rgba(0,255,204,0.08)" : "rgba(0,100,200,0.07)", border: d ? "1px solid rgba(0,255,204,0.2)" : "1.5px solid rgba(0,100,200,0.18)" }}>◈</div>
+                <div className="empty-icon" style={{ width: 64, height: 64, borderRadius: "50%", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, background: d ? "rgba(0,255,204,0.08)" : "rgba(0,100,200,0.07)", border: d ? "1px solid rgba(0,255,204,0.2)" : "1.5px solid rgba(0,100,200,0.18)" }}>🤖</div>
                 <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: d ? "rgb(255, 255, 255)" : "rgba(0, 0, 0, 0.87)", fontFamily: "'Roboto', sans-serif" }}>AI Health Assistant</div>
                 <div style={{ fontSize: 12, color: d ? "rgba(255, 255, 255, 0.69)" : "rgba(0,0,0,0.87)", lineHeight: 1.8, fontFamily: "'Roboto', sans-serif" }}>
                   Ask me anything about patient medical data.<br />SQL is auto-generated and executed.
