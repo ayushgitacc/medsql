@@ -19,12 +19,32 @@ export default function App() {
   const [activeTable, setActiveTable] = useState(null);
   const [resultData, setResultData] = useState(null);
   const [waitingForResults, setWaitingForResults] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const chatEndRef = useRef(null);
   const pollRef = useRef(null);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, resultData, waitingForResults]);
+
+  // Close drawer on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setDrawerOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [drawerOpen]);
 
   const startPollingResults = () => {
     setWaitingForResults(true);
@@ -75,8 +95,6 @@ export default function App() {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   };
 
-
-  // ▼ Download results as Excel (CSV-based .xls that Excel opens natively)
   const downloadExcel = () => {
     if (!resultData || !resultData.rows?.length) return;
     const headers = resultData.columns.join("\t");
@@ -93,6 +111,65 @@ export default function App() {
 
   const d = dark;
 
+  // Shared sidebar content
+  const SidebarContent = ({ onClose }) => (
+    <>
+      <div style={{ padding: "18px 16px 12px", borderBottom: d ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ fontSize: 10, letterSpacing: "0.28em", color: d ? "rgba(0,255,204,0.5)" : "rgba(0,120,180,0.6)", fontFamily: "'Share Tech Mono', monospace", marginBottom: 4 }}>DATABASE SCHEMA</div>
+          <div style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.25)", fontFamily: "'Share Tech Mono', monospace" }}>{TABLES.length} tables · {TABLES.reduce((a,t)=>a+t.cols.length,0)} columns</div>
+        </div>
+        {onClose && (
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: d ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", fontSize: 22, lineHeight: 1, padding: "4px 8px", borderRadius: 8, transition: "all 0.2s" }} className="drawer-close-btn">✕</button>
+        )}
+      </div>
+
+      <div className="sidebar-scroll" style={{ flex: 1, overflowY: "auto", padding: "12px 10px" }}>
+        {TABLES.map((t, i) => (
+          <div key={t.name} className="table-card" onClick={() => setActiveTable(activeTable === t.name ? null : t.name)}
+            style={{
+              marginBottom: 8, borderRadius: 14, overflow: "hidden", cursor: "pointer",
+              border: activeTable === t.name ? `1px solid ${t.color}55` : d ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
+              background: activeTable === t.name ? (d ? `rgba(4,20,36,0.95)` : "rgba(255,255,255,0.95)") : (d ? "rgba(6,18,34,0.6)" : "rgba(255,255,255,0.6)"),
+              boxShadow: activeTable === t.name ? `0 0 0 1px ${t.color}22, 0 8px 32px ${t.glow}22` : "none",
+              transition: "all 0.25s ease",
+              animationDelay: `${i * 0.06}s`,
+            }}>
+            <div style={{ padding: "11px 13px", display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{
+                width: 32, height: 32, borderRadius: 10, flexShrink: 0,
+                background: `linear-gradient(135deg, ${t.color}22, ${t.color}08)`,
+                border: `1px solid ${t.color}33`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 14, color: t.color,
+                boxShadow: activeTable === t.name ? `0 0 16px ${t.glow}` : "none",
+                transition: "box-shadow 0.3s",
+              }}>{t.icon}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 700, fontSize: 13, color: activeTable === t.name ? t.color : d ? "#e8f4ff" : "#0a1628", letterSpacing: "0.01em" }}>{t.name}</div>
+                <div style={{ fontSize: 10, color: d ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.desc}</div>
+              </div>
+              <div style={{ color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)", fontSize: 11, transform: activeTable === t.name ? "rotate(180deg)" : "none", transition: "transform 0.25s ease" }}>▾</div>
+            </div>
+            {activeTable === t.name && (
+              <div style={{ padding: "0 13px 13px", borderTop: `1px solid ${t.color}15` }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 10 }}>
+                  {t.cols.map(c => (
+                    <span key={c} style={{ fontSize: 10, padding: "3px 8px", borderRadius: 6, background: `${t.color}12`, border: `1px solid ${t.color}30`, color: t.color, fontFamily: "'Share Tech Mono', monospace" }}>{c}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ padding: "10px 16px", borderTop: d ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.05)", fontSize: 10, color: d ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.2)", fontFamily: "'Share Tech Mono', monospace" }}>
+        ORACLE XE · localhost:1521
+      </div>
+    </>
+  );
+
   return (
     <div style={{
       minHeight: "100vh",
@@ -106,17 +183,44 @@ export default function App() {
     }}>
       <style>{CSS(d)}</style>
 
-      {/* Animated gradient background */}
       <div className="bg-animate" />
-
-      {/* Noise texture */}
       <div className="noise" />
-
-      {/* Floating orbs */}
       <div className="orb orb1" />
       <div className="orb orb2" />
       <div className="orb orb3" />
       <div className="orb orb4" />
+
+      {/* Mobile drawer overlay */}
+      <div
+        className={`drawer-overlay ${drawerOpen ? "drawer-overlay--open" : ""}`}
+        onClick={() => setDrawerOpen(false)}
+        style={{
+          position: "fixed", inset: 0, zIndex: 200,
+          background: "rgba(0,0,0,0.55)",
+          backdropFilter: "blur(4px)",
+          opacity: drawerOpen ? 1 : 0,
+          pointerEvents: drawerOpen ? "auto" : "none",
+          transition: "opacity 0.3s ease",
+        }}
+      />
+
+      {/* Mobile drawer */}
+      <aside
+        style={{
+          position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 201,
+          width: 288,
+          background: d ? "rgba(4,14,30,0.97)" : "rgba(255,255,255,0.97)",
+          backdropFilter: "blur(24px)",
+          borderRight: d ? "1px solid rgba(0,255,204,0.15)" : "1px solid rgba(0,150,200,0.2)",
+          display: "flex", flexDirection: "column",
+          transform: drawerOpen ? "translateX(0)" : "translateX(-100%)",
+          transition: "transform 0.35s cubic-bezier(0.34,1.2,0.64,1)",
+          boxShadow: drawerOpen ? (d ? "8px 0 60px rgba(0,255,204,0.12)" : "8px 0 60px rgba(0,150,200,0.15)") : "none",
+        }}
+        className="mobile-drawer"
+      >
+        <SidebarContent onClose={() => setDrawerOpen(false)} />
+      </aside>
 
       {/* HEADER */}
       <header style={{
@@ -129,21 +233,42 @@ export default function App() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          {/* Logo mark */}
+          {/* Mobile schema drawer trigger — only visible on small screens */}
+          <button
+            className="schema-trigger"
+            onClick={() => setDrawerOpen(true)}
+            title="View Database Schema"
+            style={{
+              display: "none", // shown via CSS media query
+              alignItems: "center", justifyContent: "center",
+              width: 38, height: 38, borderRadius: 11, border: "none", cursor: "pointer",
+              background: d ? "rgba(0,255,204,0.1)" : "rgba(0,150,200,0.1)",
+              color: d ? "#00ffcc" : "#007aaa",
+              fontSize: 17, flexShrink: 0,
+              transition: "all 0.2s",
+              marginRight: 2,
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="2" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+              <rect x="1" y="7" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+              <rect x="1" y="12" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+          </button>
+
           <span style={{ fontSize: 34, lineHeight: 1, background: "linear-gradient(135deg, #00ffcc, #44ccff, #aa88ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>⬡</span>
           <div>
             <div style={{ fontSize: 19, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>
               MedSQL<span className="accent-text">.ai</span>
             </div>
-            <div style={{ fontSize: 10, color: d ? "rgba(0,255,204,0.6)" : "rgba(0,130,180,0.7)", letterSpacing: "0.18em", marginTop: 2, fontFamily: "'Share Tech Mono', monospace" }}>
+            <div style={{ fontSize: 10, color: d ? "rgba(0,255,204,0.6)" : "rgba(0,130,180,0.7)", letterSpacing: "0.18em", marginTop: 2, fontFamily: "'Share Tech Mono', monospace" }} className="header-subtitle">
               CLINICAL INTELLIGENCE PLATFORM
             </div>
           </div>
         </div>
 
-        {/* Theme toggle */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", fontFamily: "'Share Tech Mono', monospace", letterSpacing: "0.1em" }}>
+          <span style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", fontFamily: "'Share Tech Mono', monospace", letterSpacing: "0.1em" }} className="theme-label">
             {d ? "DARK" : "LIGHT"}
           </span>
           <div onClick={() => setDark(!d)} style={{
@@ -168,67 +293,22 @@ export default function App() {
       {/* MAIN */}
       <main style={{ display: "flex", flex: 1, maxHeight: "calc(100vh - 62px)", overflow: "hidden", position: "relative", zIndex: 1 }}>
 
-        {/* SIDEBAR */}
-        <aside style={{
-          width: 272, minWidth: 252,
-          background: d ? "rgba(4,14,30,0.75)" : "rgba(255,255,255,0.65)",
-          backdropFilter: "blur(20px)",
-          borderRight: d ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
-          display: "flex", flexDirection: "column",
-          overflow: "hidden",
-        }}>
-          <div style={{ padding: "18px 16px 12px", borderBottom: d ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)" }}>
-            <div style={{ fontSize: 10, letterSpacing: "0.28em", color: d ? "rgba(0,255,204,0.5)" : "rgba(0,120,180,0.6)", fontFamily: "'Share Tech Mono', monospace", marginBottom: 4 }}>DATABASE SCHEMA</div>
-            <div style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.25)", fontFamily: "'Share Tech Mono', monospace" }}>{TABLES.length} tables · {TABLES.reduce((a,t)=>a+t.cols.length,0)} columns</div>
-          </div>
-
-          <div className="sidebar-scroll" style={{ flex: 1, overflowY: "auto", padding: "12px 10px" }}>
-            {TABLES.map((t, i) => (
-              <div key={t.name} className="table-card" onClick={() => setActiveTable(activeTable === t.name ? null : t.name)}
-                style={{
-                  marginBottom: 8, borderRadius: 14, overflow: "hidden", cursor: "pointer",
-                  border: activeTable === t.name ? `1px solid ${t.color}55` : d ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
-                  background: activeTable === t.name ? (d ? `rgba(4,20,36,0.95)` : "rgba(255,255,255,0.95)") : (d ? "rgba(6,18,34,0.6)" : "rgba(255,255,255,0.6)"),
-                  boxShadow: activeTable === t.name ? `0 0 0 1px ${t.color}22, 0 8px 32px ${t.glow}22` : "none",
-                  transition: "all 0.25s ease",
-                  animationDelay: `${i * 0.06}s`,
-                }}>
-                <div style={{ padding: "11px 13px", display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{
-                    width: 32, height: 32, borderRadius: 10, flexShrink: 0,
-                    background: `linear-gradient(135deg, ${t.color}22, ${t.color}08)`,
-                    border: `1px solid ${t.color}33`,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 14, color: t.color,
-                    boxShadow: activeTable === t.name ? `0 0 16px ${t.glow}` : "none",
-                    transition: "box-shadow 0.3s",
-                  }}>{t.icon}</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 700, fontSize: 13, color: activeTable === t.name ? t.color : d ? "#e8f4ff" : "#0a1628", letterSpacing: "0.01em" }}>{t.name}</div>
-                    <div style={{ fontSize: 10, color: d ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.desc}</div>
-                  </div>
-                  <div style={{ color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)", fontSize: 11, transform: activeTable === t.name ? "rotate(180deg)" : "none", transition: "transform 0.25s ease" }}>▾</div>
-                </div>
-                {activeTable === t.name && (
-                  <div style={{ padding: "0 13px 13px", borderTop: `1px solid ${t.color}15` }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 10 }}>
-                      {t.cols.map(c => (
-                        <span key={c} style={{ fontSize: 10, padding: "3px 8px", borderRadius: 6, background: `${t.color}12`, border: `1px solid ${t.color}30`, color: t.color, fontFamily: "'Share Tech Mono', monospace" }}>{c}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div style={{ padding: "10px 16px", borderTop: d ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.05)", fontSize: 10, color: d ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.2)", fontFamily: "'Share Tech Mono', monospace" }}>
-            ORACLE XE · localhost:1521
-          </div>
+        {/* DESKTOP SIDEBAR — hidden on mobile via CSS */}
+        <aside
+          className="desktop-sidebar"
+          style={{
+            width: 272, minWidth: 252,
+            background: d ? "rgba(4,14,30,0.75)" : "rgba(255,255,255,0.65)",
+            backdropFilter: "blur(20px)",
+            borderRight: d ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
+            display: "flex", flexDirection: "column",
+            overflow: "hidden",
+          }}>
+          <SidebarContent onClose={null} />
         </aside>
 
         {/* CHAT */}
-        <section style={{ flex: 1, display: "flex", flexDirection: "column", padding: "18px 24px 16px", overflow: "hidden" }}>
+        <section style={{ flex: 1, display: "flex", flexDirection: "column", padding: "18px 24px 16px", overflow: "hidden" }} className="chat-section">
 
           {/* Email row */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, padding: "10px 16px", borderRadius: 14, background: d ? "rgba(4,14,30,0.6)" : "rgba(255,255,255,0.6)", backdropFilter: "blur(12px)", border: d ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)" }}>
@@ -277,7 +357,6 @@ export default function App() {
               </div>
             ))}
 
-            {/* Generating */}
             {loading && (
               <div style={{ alignSelf: "flex-start", animation: "slideUp 0.3s ease" }}>
                 <div style={{ fontSize: 10, color: d ? "rgba(0,255,204,0.4)" : "rgba(0,150,180,0.5)", marginBottom: 5, fontFamily: "'Share Tech Mono', monospace" }}>◈ SQL · Generating...</div>
@@ -289,7 +368,6 @@ export default function App() {
               </div>
             )}
 
-            {/* Executing */}
             {waitingForResults && (
               <div style={{ alignSelf: "stretch", animation: "slideUp 0.3s ease" }}>
                 <div style={{ fontSize: 10, color: d ? "rgba(255,170,0,0.6)" : "rgba(180,100,0,0.6)", marginBottom: 5, fontFamily: "'Share Tech Mono', monospace" }}>⬡ ORACLE · Executing...</div>
@@ -302,7 +380,6 @@ export default function App() {
               </div>
             )}
 
-            {/* Results */}
             {resultData && !waitingForResults && (
               <div style={{ alignSelf: "stretch", animation: "slideUp 0.3s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 5 }}>
@@ -355,8 +432,8 @@ export default function App() {
           <div style={{ borderRadius: 20, background: d ? "rgba(4,14,30,0.75)" : "rgba(255,255,255,0.75)", backdropFilter: "blur(20px)", border: d ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)", padding: "14px 16px", boxShadow: d ? "0 -4px 40px rgba(0,0,0,0.3)" : "0 -4px 40px rgba(0,0,0,0.06)" }}>
             <textarea className="chat-textarea" rows={2} placeholder="Ask about your patient data... e.g. Show top 10 patients with high cholesterol" value={message} onChange={e => setMessage(e.target.value)} onKeyDown={handleKey}
               style={{ width: "100%", background: "transparent", border: "none", outline: "none", resize: "none", color: d ? "#e8f4ff" : "#0a1628", fontSize: 14, fontFamily: "'Syne', sans-serif", lineHeight: 1.6, marginBottom: 10 }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.25)", fontFamily: "'Share Tech Mono', monospace" }}>↵ Enter to send · ⇧ Shift+Enter for newline</span>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.25)", fontFamily: "'Share Tech Mono', monospace" }} className="enter-hint">↵ Enter to send · ⇧ Shift+Enter for newline</span>
               <button onClick={sendMessage} disabled={loading || waitingForResults} className="send-btn"
                 style={{
                   height: 40, padding: "0 22px", borderRadius: 12, border: "none", cursor: "pointer",
@@ -366,6 +443,7 @@ export default function App() {
                   transition: "all 0.25s ease",
                   boxShadow: loading || waitingForResults ? "none" : "0 4px 20px rgba(0,255,204,0.4)",
                   display: "flex", alignItems: "center", gap: 8,
+                  flexShrink: 0,
                 }}>
                 {loading || waitingForResults
                   ? <><div className="spin-ring" /><span>Processing</span></>
@@ -468,6 +546,12 @@ function CSS(d) {
     .result-row:hover td { background: ${d ? "rgba(255,170,0,0.05)" : "rgba(200,120,0,0.04)"} !important; }
     .result-row:last-child td { border-bottom: none; }
 
+    /* ── Drawer close btn ── */
+    .drawer-close-btn:hover { background: ${d ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important; color: ${d ? "#fff" : "#000"} !important; }
+
+    /* ── Schema trigger button hover ── */
+    .schema-trigger:hover { background: ${d ? "rgba(0,255,204,0.18)" : "rgba(0,150,200,0.18)"} !important; box-shadow: 0 0 14px ${d ? "rgba(0,255,204,0.3)" : "rgba(0,150,200,0.25)"}; }
+
     /* ── Animations ── */
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(14px) scale(0.98); }
@@ -476,6 +560,43 @@ function CSS(d) {
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════════════════════
+       RESPONSIVE — mobile / small screens
+       ════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+
+      /* Hide desktop sidebar */
+      .desktop-sidebar { display: none !important; }
+
+      /* Show the schema trigger button in header */
+      .schema-trigger { display: flex !important; }
+
+      /* Header tweaks */
+      .header-subtitle { display: none; }
+      .theme-label { display: none; }
+
+      /* Mobile drawer is a fixed overlay panel (handled inline),
+         but ensure it sits on top and is scrollable */
+      .mobile-drawer { display: flex !important; flex-direction: column; }
+
+      /* Chat section full width with tighter padding */
+      .chat-section { padding: 12px 12px 12px !important; }
+
+      /* Input hint hidden on tiny screens */
+      .enter-hint { display: none; }
+
+      /* Messages max-width wider on mobile */
+      /* already flex-end/flex-start, no change needed */
+
+      /* Results table — ensure horizontal scroll works */
+      .result-row td, thead th { white-space: nowrap; }
+    }
+
+    @media (max-width: 400px) {
+      /* Extra tight for very small phones */
+      .chat-section { padding: 8px 8px 8px !important; }
     }
   `;
 }
