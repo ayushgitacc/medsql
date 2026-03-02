@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 
 const TABLES = [
-  { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#ffcc00", glow: "rgb(255, 162, 0)" },
-  { name: "Heart", icon: "🫀", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff0000", glow: "rgb(255, 0, 0)" },
-  { name: "Activity", icon: "🏃", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255,170,0,0.5)" },
-  { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#aa88ff", glow: "rgba(170,136,255,0.5)" },
-  { name: "Medications", icon: "💊", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(68,204,255,0.5)" },
+  { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#ffcc00", glow: "rgba(255, 162, 0, 0.73)" },
+  { name: "Heart", icon: "🫀", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff0000", glow: "rgba(255, 0, 0, 0.6)" },
+  { name: "Activity", icon: "🏃", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255, 170, 0, 0.76)" },
+  { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#2bff00", glow: "rgba(152, 255, 136, 0.63)" },
+  { name: "Medications", icon: "💊", desc: "Prescribed medications & dosages", cols: ["m_id", "patient_id", "med_name", "dosage", "frequency", "start_date", "end_date", "prescribed_by"], color: "#44ccff", glow: "rgba(0, 255, 247, 0.78)" },
 ];
 
 const FLASK_URL = import.meta.env.VITE_API_URL || "https://medsql.onrender.com";
