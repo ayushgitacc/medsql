@@ -360,8 +360,8 @@ export default function App() {
             {messages.length === 0 && !resultData && (
               <div style={{ margin: "auto", textAlign: "center", padding: 24 }}>
                 <div className="empty-icon" style={{ width: 64, height: 64, borderRadius: "50%", margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, background: d ? "rgba(0,255,204,0.08)" : "rgba(0,100,200,0.07)", border: d ? "1px solid rgba(0,255,204,0.2)" : "1.5px solid rgba(0,100,200,0.18)" }}>◈</div>
-                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: d ? "rgba(255,255,255,0.55)" : "rgba(15,25,50,0.55)", fontFamily: "'Roboto', sans-serif" }}>Ready for your query</div>
-                <div style={{ fontSize: 12, color: d ? "rgba(255,255,255,0.25)" : "rgba(15,25,50,0.38)", lineHeight: 1.8, fontFamily: "'Roboto', sans-serif" }}>
+                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: d ? "rgb(255, 255, 255)" : "rgba(0, 0, 0, 0.87)", fontFamily: "'Roboto', sans-serif" }}>Ready for your query</div>
+                <div style={{ fontSize: 12, color: d ? "rgb(255, 255, 255)" : "rgba(0,0,0,0.87)", lineHeight: 1.8, fontFamily: "'Roboto', sans-serif" }}>
                   Ask anything about your patient data.<br />SQL is auto-generated and executed.
                 </div>
               </div>
