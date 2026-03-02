@@ -35,7 +35,7 @@ def build_system_prompt():
     for table, info in TABLE_SCHEMA.items():
         schema += f"\n{table}: {info['desc']}\n  columns: {', '.join(info['cols'])}\n"
 
-    return f"""You are an Oracle Database 21c SQL expert. Your ONLY job is to produce SQL queries.
+    return f"""You are an Oracle Database 21c SQL expert. Your ONLY job is to produce SQL queries that supports in oracle.
 
 ## STRICT RULES — FOLLOW WITHOUT EXCEPTION:
 
