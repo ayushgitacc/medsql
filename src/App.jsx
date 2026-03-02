@@ -170,7 +170,7 @@ export default function App() {
       </div>
 
       <div style={{ padding: "10px 16px", borderTop: d ? "1px solid rgba(255,255,255,0.07)" : "1.5px solid rgba(15,25,50,0.1)", fontSize: 10, color: d ? "rgba(255,255,255,0.2)" : "rgba(15,25,50,0.4)", fontFamily: "'Roboto Mono', monospace", flexShrink: 0 }}>
-        ORACLE XE · localhost:1521
+        ORACLE CLOUD · AI Autonomous:DB
       </div>
     </>
   );
