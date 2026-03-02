@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 const TABLES = [
-  { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#00ffcc", glow: "rgba(0,255,204,0.5)" },
+  { name: "Glucose", icon: "🍬", desc: "Patient glucose readings & monitoring", cols: ["g_id", "patient_id", "glucose_value", "reading_time", "device_id", "trend", "checkup_date"], color: "#ffcc00", glow: "rgb(255, 162, 0)" },
   { name: "Heart", icon: "🫀", desc: "Heart disease diagnosis & risk factors", cols: ["h_id", "patient_id", "diagnosis_date", "severity", "cholesterol", "blood_pressure", "smoking_status", "treatment_plan", "record_date"], color: "#ff4488", glow: "rgba(255,68,136,0.5)" },
   { name: "Activity", icon: "🏃", desc: "Glucose before & after exercise", cols: ["a_id", "patient_id", "activity_type", "duration_minutes", "calories_burned", "glucose_before", "glucose_after", "activity_date"], color: "#ffaa00", glow: "rgba(255,170,0,0.5)" },
   { name: "Patients", icon: "📋", desc: "Master patient registry", cols: ["patient_id", "first_name", "last_name", "dob", "gender", "email", "phone", "created_at"], color: "#aa88ff", glow: "rgba(170,136,255,0.5)" },
