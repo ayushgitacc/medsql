@@ -118,7 +118,7 @@ export default function App() {
         flexShrink: 0,
       }}>
         <div>
-          <div style={{ fontSize: 10, letterSpacing: "0.28em", color: d ? "rgba(0,255,204,0.6)" : "rgba(0,80,160,0.7)", fontFamily: "'Roboto Mono', monospace", marginBottom: 4, fontWeight: 500 }}>DATABASE SCHEMA</div>
+          <div style={{ fontSize: 10, letterSpacing: "0.28em", color: d ? "rgba(0,255,204,0.6)" : "rgba(0,80,160,0.7)", fontFamily: "'Roboto Mono', monospace", marginBottom: 4, fontWeight: 900 }}>DATABASE SCHEMA</div>
           <div style={{ fontSize: 11, color: d ? "rgba(255,255,255,0.3)" : "rgba(15,25,50,0.45)", fontFamily: "'Roboto Mono', monospace" }}>{TABLES.length} tables · {TABLES.reduce((a,t)=>a+t.cols.length,0)} columns</div>
         </div>
         {onClose && (
