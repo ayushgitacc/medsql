@@ -73,8 +73,14 @@ def build_system_prompt():
 13. If confidence is below 75%, ask one clarifying question. Do NOT guess.
 14. If the request CANNOT be answered with the given schema, respond ONLY with:
     -- Cannot generate query: [brief reason]
-15. Blood pressure or heart rate column is in varchar format with systolic and 
-    diastolic range clubbed together like x/y so according you will generate query to check.  
+# Heart.blood_pressure
+- Stored as VARCHAR2 in format 'systolic/diastolic' e.g. '120/80'
+- NEVER use LIKE for numeric comparisons on this column
+- NEVER compare it directly: blood_pressure > 130  ← WRONG
+- ALWAYS extract using SUBSTR + INSTR:
+
+  Systolic  → TO_NUMBER(SUBSTR(H.blood_pressure, 1, INSTR(H.blood_pressure, '/') - 1))
+  Diastolic → TO_NUMBER(SUBSTR(H.blood_pressure, INSTR(H.blood_pressure, '/') + 1))  
 
 ## DATABASE SCHEMA:
 {schema}"""
