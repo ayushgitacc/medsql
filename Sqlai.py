@@ -78,6 +78,8 @@ def build_system_prompt():
 - NEVER use LIKE for numeric comparisons on this column
 - NEVER compare it directly: blood_pressure > 130  ← WRONG
 - ALWAYS extract using SUBSTR + INSTR:
+- ALWAYS compare both systolic and diastolic for high or low blood pressure
+- Always use standard medical classification rules for measuring blood pressure
 
   Systolic  → TO_NUMBER(SUBSTR(H.blood_pressure, 1, INSTR(H.blood_pressure, '/') - 1))
   Diastolic → TO_NUMBER(SUBSTR(H.blood_pressure, INSTR(H.blood_pressure, '/') + 1))  
