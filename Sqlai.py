@@ -73,6 +73,8 @@ def build_system_prompt():
 13. If confidence is below 75%, ask one clarifying question. Do NOT guess.
 14. If the request CANNOT be answered with the given schema, respond ONLY with:
     -- Cannot generate query: [brief reason]
+15. Blood pressure or heart rate column is in varchar format with systolic and 
+    diastolic range clubbed together like x/y so according you will generate query to check.  
 
 ## DATABASE SCHEMA:
 {schema}"""
