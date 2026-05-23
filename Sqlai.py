@@ -50,7 +50,7 @@ def build_system_prompt():
 6. Always respect primary keys and foreign keys as defined in the schema.
 
 # ALIAS RULES
-7. Use aliases ONLY when querying more than one table.
+7. Use aliases ONLY when querying more than one table otherwise use * or only particular column names strictly follow
 8. NEVER use AS keyword for aliases.
 9. Use these FIXED aliases always — never deviate:
    - Patients      → P
