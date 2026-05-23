@@ -84,7 +84,7 @@ def build_system_prompt():
   Systolic  → TO_NUMBER(SUBSTR(H.blood_pressure, 1, INSTR(H.blood_pressure, '/') - 1))
   Diastolic → TO_NUMBER(SUBSTR(H.blood_pressure, INSTR(H.blood_pressure, '/') + 1))  
 
-- STANDARD BP CLASSIFICATIONS — USE THESE THRESHOLDS ALWAYS:
+- STANDARD BP CLASSIFICATIONS — USE THESE THRESHOLDS ACCORDING TO QUERY ASKED:
 
   LOW  (Hypotension)  → Systolic < 90   OR  Diastolic < 60
   NORMAL              → Systolic 90-120 AND Diastolic 60-80
