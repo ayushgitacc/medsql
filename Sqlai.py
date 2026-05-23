@@ -84,6 +84,15 @@ def build_system_prompt():
   Systolic  → TO_NUMBER(SUBSTR(H.blood_pressure, 1, INSTR(H.blood_pressure, '/') - 1))
   Diastolic → TO_NUMBER(SUBSTR(H.blood_pressure, INSTR(H.blood_pressure, '/') + 1))  
 
+- STANDARD BP CLASSIFICATIONS — USE THESE THRESHOLDS ALWAYS:
+
+  LOW  (Hypotension)  → Systolic < 90   OR  Diastolic < 60
+  NORMAL              → Systolic 90-120 AND Diastolic 60-80
+  ELEVATED            → Systolic 120-129 AND Diastolic < 80
+  HIGH Stage 1        → Systolic 130-139 OR  Diastolic 80-89
+  HIGH Stage 2        → Systolic >= 140  OR  Diastolic >= 90
+  CRISIS              → Systolic > 180   OR  Diastolic > 120  
+
 ## DATABASE SCHEMA:
 {schema}"""
 
